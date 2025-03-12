@@ -1,0 +1,21 @@
+name: "RDS Patching"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  invoke-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::<CENTRAL_ACCOUNT_ID>:role/LambdaExecutionRole
+          aws-region: us-east-1
+
+      - name: Invoke Lambda
+        run: |
+          aws lambda invoke \
+            --function-name RDSPatchingLambda \
+            --payload '{}' \
+            response.json
