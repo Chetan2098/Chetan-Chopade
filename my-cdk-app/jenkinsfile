@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('CDK Synth') {
+            steps {
+                sh 'cdk synth'
+            }
+        }
+        stage('CDK Deploy') {
+            steps {
+                sh 'cdk deploy --require-approval never'
+            }
+        }
+    }
+}
